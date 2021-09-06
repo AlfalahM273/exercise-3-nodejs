@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../datasource/database";
 
 const CompetencySchema = new mongoose.Schema(
     {
@@ -21,7 +21,7 @@ const CompetencySchema = new mongoose.Schema(
             required: true,
         },
     },
-    { timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } }
+    { timestamps: true }
 );
 
-export default mongoose.model('competencyt', CompetencySchema )
+export default mongoose.model('competency', CompetencySchema )
