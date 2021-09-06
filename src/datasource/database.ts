@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
-export default function connect(){
+function connect(){
 
-    const mongoUri = `mongodb://localhost:27017/test_typescript`;
+    const mongoUri = process.env.MONGO_URI || "mongodb://localhost:27017/test_typescript";
     mongoose.connect(mongoUri)
     .catch(error => {
         console.error(`Failed to connect to MongoDB: ${error.message}`);
@@ -12,3 +12,6 @@ export default function connect(){
         console.log('Connected to MongoDB');
     });
 }
+connect()
+
+export default mongoose
