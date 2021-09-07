@@ -4,8 +4,8 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 
-import {router as competencyRouter} from './routes/competency';
-import {router as authRouter} from './routes/auth';
+import { router as competencyRouter } from './routes/competency';
+import { router as authRouter } from './routes/auth';
 
 
 const app = express();
@@ -17,14 +17,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // define a route handler for the default home page
-app.get( '/', ( req, res ) => {
-    res.send( 'Hello world!' );
+app.get('/', (req, res) => {
+    res.send('Hello world!');
 });
 app.use('/api/competency', competencyRouter);
 app.use('/api/auth', authRouter);
 
 
 // start the Express server
-app.listen( port, () => {
-    console.log( `server started at http://localhost:${ port }` );
-} );
+app.listen(port, () => {
+    console.log(`server started at http://localhost:${port}`);
+});
