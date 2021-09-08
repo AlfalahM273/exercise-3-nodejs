@@ -50,9 +50,9 @@ const signIn = async (req: Request, res: Response) => {
             })
             return
         }
-        const user:any = await User.findOne({ userName });
+        const user: any = await User.findOne({ userName });
 
-        if (user && (await bcrypt.compare(password, user.password as string ))) {
+        if (user && (await bcrypt.compare(password, user.password as string))) {
             const token = jwt.sign(
                 {
                     id: user._id,

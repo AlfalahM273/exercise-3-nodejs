@@ -1,5 +1,3 @@
-import * as dotenv from "dotenv";
-dotenv.config();
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
@@ -9,7 +7,6 @@ import { router as authRouter } from './routes/auth';
 
 
 const app = express();
-const port = process.env.PORT || 8080; // default port to listen
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -23,8 +20,4 @@ app.get('/', (req, res) => {
 app.use('/api/competency', competencyRouter);
 app.use('/api/auth', authRouter);
 
-
-// start the Express server
-app.listen(port, () => {
-    console.log(`server started at http://localhost:${port}`);
-});
+export default app
