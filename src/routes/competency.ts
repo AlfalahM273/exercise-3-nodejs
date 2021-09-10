@@ -17,4 +17,7 @@ router.route('/:competencyId')
     .get(competencyController.show)
     .patch(competencyController.update)
     .delete(competencyController.unlink);
+
+router.route('/evidence/:competencyId')
+    .post(competencyController.attachEvidence);
 export { router }

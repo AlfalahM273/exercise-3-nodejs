@@ -1,4 +1,10 @@
 import mongoose from "../datasource/database";
+export interface ICompetency {
+	skill: string;
+	level: string;
+	selfClaim: string;
+	evidenceImgUrl?: string;
+}
 
 const CompetencySchema = new mongoose.Schema(
     {
@@ -20,8 +26,12 @@ const CompetencySchema = new mongoose.Schema(
             maxlength: 50,
             required: true,
         },
+        evidenceImgUrl:
+        {
+            type: String
+        },
     },
     { timestamps: true }
 );
 
-export default mongoose.model('competency', CompetencySchema )
+export default mongoose.model<ICompetency>('competency', CompetencySchema )
