@@ -93,6 +93,25 @@ describe('Competencies', () => {
                         })
                 })
         });
+
+
+        it('id cast error', () => {
+            return agent
+                .post('/api/competency')
+                .set("Authorization", 'bearer ' + token)
+                .send(competencyData)
+                .expect(201)
+                .then((res: any) => {
+                    return agent
+                        .get('/api/competency/' + 'falseId')
+                        .set("Authorization", 'bearer ' + token)
+                        .send({ level: 'good' })
+                        .expect(500)
+                        .expect((res: any) => {
+                            res.body.errors.should.be.a('array');
+                        })
+                })
+        });
     });
 
     describe('/POST Competencies', () => {
@@ -209,6 +228,103 @@ describe('Competencies', () => {
                         .set("Authorization", 'bearer ' + token)
                         .send({ level: 'good' })
                         .expect(422)
+                        .expect((res: any) => {
+                            res.body.errors.should.be.a('array');
+                        })
+                })
+        });
+    });
+
+    describe('/POST Upload Image', () => {
+        it('it should successfully upload evidence', () => {
+            return agent
+                .post('/api/competency')
+                .set("Authorization", 'bearer ' + token)
+                .send(competencyData)
+                .expect(201)
+                .then((res: any) => {
+                    return agent
+                        .post('/api/competency/evidence/' + res.body._id)
+                        .set("Authorization", 'bearer ' + token)
+                        .attach('image', 'tests/images/evidence.jpg')
+                        .expect(201)
+                        .expect((res: any) => {
+                            res.body.message.should.equal('successfully upload evidence')
+                        })
+
+
+                })
+        });
+        
+        it('no Image', () => {
+            return agent
+                .post('/api/competency')
+                .set("Authorization", 'bearer ' + token)
+                .send(competencyData)
+                .expect(201)
+                .then((res: any) => {
+                    return agent
+                        .post('/api/competency/evidence/' + res.body._id)
+                        .set("Authorization", 'bearer ' + token)
+                        .attach('image', '')
+                        .expect(422)
+                        .expect((res: any) => {
+                            res.body.errors.should.be.a('array');
+                            res.body.errors[0].should.equal('No Image File')
+                        })
+                })
+        });
+        
+        it('Image Type false', () => {
+            return agent
+                .post('/api/competency')
+                .set("Authorization", 'bearer ' + token)
+                .send(competencyData)
+                .expect(201)
+                .then((res: any) => {
+                    return agent
+                        .post('/api/competency/evidence/' + res.body._id)
+                        .set("Authorization", 'bearer ' + token)
+                        .attach('image', 'tests/images/evidence.pdf')
+                        .expect(422)
+                        .expect((res: any) => {
+                            res.body.errors.should.be.a('array');
+                            res.body.errors[0].should.equal('This Filetype is Not Allowed')
+                        })
+                })
+        });
+        
+        it('Not Found', () => {
+            return agent
+                .post('/api/competency')
+                .set("Authorization", 'bearer ' + token)
+                .send(competencyData)
+                .expect(201)
+                .then((res: any) => {
+                    return agent
+                        .post('/api/competency/evidence/' + '61382367ad8218b3145b1101')
+                        .set("Authorization", 'bearer ' + token)
+                        .attach('image', 'tests/images/evidence.jpg')
+                        .expect(404)
+                        .expect((res: any) => {
+                            res.body.errors.should.be.a('array');
+                            res.body.errors[0].should.equal('Not Found')
+                        })
+                })
+        });
+        
+        it('id Cast error', () => {
+            return agent
+                .post('/api/competency')
+                .set("Authorization", 'bearer ' + token)
+                .send(competencyData)
+                .expect(201)
+                .then((res: any) => {
+                    return agent
+                        .post('/api/competency/evidence/' + 'falseId')
+                        .set("Authorization", 'bearer ' + token)
+                        .attach('image', 'tests/images/evidence.jpg')
+                        .expect(500)
                         .expect((res: any) => {
                             res.body.errors.should.be.a('array');
                         })
