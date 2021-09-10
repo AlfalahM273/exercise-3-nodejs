@@ -1,4 +1,5 @@
 /node_modules/
+/public/images/*.jpg
 /dist/
 /.nyc_output/
 
